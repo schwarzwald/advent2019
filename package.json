@@ -1,0 +1,28 @@
+{
+  "name": "advent2019",
+  "version": "1.0.0",
+  "description": "Solutions to AoC 2019",
+  "scripts": {
+    "all": "node all.js",
+    "test": "mocha day*/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/schwarzwald/advent2019.git"
+  },
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "mocha": "^6.2.2"
+  },
+  "keywords": [
+    "advent-of-code",
+    "advent-of-code-2019",
+    "aoc2019"
+  ],
+  "author": "schwarzwald",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/schwarzwald/advent2019/issues"
+  },
+  "homepage": "https://github.com/schwarzwald/advent2019#readme"
+}
