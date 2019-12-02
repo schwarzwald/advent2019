@@ -21,7 +21,7 @@ describe('Day 1: Part 1 - Calculate fuel from mass by dividing by 3, rounding do
   });
 });
 
-describe('Day 2: Part 2 - Calculate fuel from mass and also from fuel', () => {
+describe('Day 1: Part 2 - Calculate fuel from mass and also from fuel', () => {
 
   it('Should calculate 2 fuel for mass of 14', () => {
     expect(part2('14')).to.be(2);
