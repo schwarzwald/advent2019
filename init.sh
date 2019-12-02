@@ -25,8 +25,8 @@ if [ ! -f $d/test.js ]; then
 const part1 = require('./part1');
 const part2 = require('./part2');
 
-describe('Day $d: Part 1', () => {});
-describe('Day $d: Part 2', () => {});" >> $d/test.js
+describe('Day $1: Part 1', () => {});
+describe('Day $1: Part 2', () => {});" >> $d/test.js
 fi
 
 if [ ! -f $d/input.txt ]; then
