@@ -1,11 +1,3 @@
-const gcd = (a, b) => {
-  if (!b) {
-    return a;
-  }
-
-  return gcd(b, a % b);
-}
-
 class Point {
   constructor(x, y) {
     this.x = x;
@@ -35,7 +27,6 @@ class Vec2 {
     return this.dot(other) / this.length() / other.length();
   }
 
-
   length() {
     return Math.sqrt(this.x ** 2 + this.y ** 2);
   }
@@ -48,6 +39,14 @@ class Vec2 {
   eq(other) {
     const round = x => Math.round(x * 10000000);
     return round(this.x) == round(other.x) && round(this.y) == round(other.y);
+  }
+
+  angle(up, right) {
+    let ang = Math.acos(up.cos(this.norm()));
+    if (right.dot(this) < 0) {
+      return 2 * Math.PI - ang;
+    }
+    return ang;
   }
 }
 
@@ -93,23 +92,30 @@ module.exports = input => {
   });
 
   let max = 0;
-  let i = 0;
+  let station = null;
   for (let a of asteroids) {
     let count = visible(a, asteroids).length;
 
-    if (max > count) {
-      i = asteroids.indexOf(a);
+    if (count > max) {
+      station = a;
     }
     max = Math.max(max, count);
   }
 
-  let a = asteroids[i];
+  //let removed = 0;
   let up = new Vec2(0, -1);
-  while (true) {
-    let vis = visible(a, asteroids);
-    let sorted = vis.map(b => [b, up.cos(a.vector(b))]).sort((x, y) => y[1] - x[1]);
-    sorted.toString();
-  }
+  let right = new Vec2(1, 0);
 
-  return max;
+  while (true) {
+    let vis = visible(station, asteroids);
+
+    // if (removed + vis.length < 200) {
+    //   asteroids = asteroids.filter(x => !visible.includes(x));
+    //   removed += visible.length;
+    // } else {
+    let sorted = vis.map(b => [b, station.vector(b).angle(up, right)]).sort((x, y) => x[1] - y[1]);
+    let target = sorted[199];
+    return target[0].x * 100 + target[0].y;
+
+  }
 }
