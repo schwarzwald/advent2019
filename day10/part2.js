@@ -101,13 +101,11 @@ module.exports = input => {
     max = Math.max(max, count);
   }
 
-  while (true) {
-    let sorted = visible(station, asteroids)
-      .map(b => [b, station.vector(b).angle()])
-      .sort((x, y) => x[1] - y[1]);
+  let sorted = visible(station, asteroids)
+    .map(b => [b, station.vector(b).angle()])
+    .sort((x, y) => x[1] - y[1]);
 
-    let { x, y } = sorted[199][0];
+  let { x, y } = sorted[199][0];
 
-    return x * 100 + y;
-  }
+  return x * 100 + y;
 }
