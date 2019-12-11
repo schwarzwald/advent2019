@@ -12,4 +12,3 @@ describe('Day 10: Part 1', () => {
   });
 
 });
-describe('Day 10: Part 2', () => { });

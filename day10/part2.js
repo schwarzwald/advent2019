@@ -41,12 +41,11 @@ class Vec2 {
     return round(this.x) == round(other.x) && round(this.y) == round(other.y);
   }
 
-  angle(up, right) {
-    let ang = Math.acos(up.cos(this.norm()));
-    if (right.dot(this) < 0) {
-      return 2 * Math.PI - ang;
-    }
-    return ang;
+  angle() {
+    let up = new Vec2(0, -1);
+    let right = new Vec2(1, 0);
+    let ang = Math.acos(up.cos(this));
+    return right.dot(this) < 0 ? 2 * Math.PI - ang : ang;
   }
 }
 
@@ -102,20 +101,13 @@ module.exports = input => {
     max = Math.max(max, count);
   }
 
-  //let removed = 0;
-  let up = new Vec2(0, -1);
-  let right = new Vec2(1, 0);
-
   while (true) {
-    let vis = visible(station, asteroids);
+    let sorted = visible(station, asteroids)
+      .map(b => [b, station.vector(b).angle()])
+      .sort((x, y) => x[1] - y[1]);
 
-    // if (removed + vis.length < 200) {
-    //   asteroids = asteroids.filter(x => !visible.includes(x));
-    //   removed += visible.length;
-    // } else {
-    let sorted = vis.map(b => [b, station.vector(b).angle(up, right)]).sort((x, y) => x[1] - y[1]);
-    let target = sorted[199];
-    return target[0].x * 100 + target[0].y;
+    let { x, y } = sorted[199][0];
 
+    return x * 100 + y;
   }
 }

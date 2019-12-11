@@ -1,11 +1,3 @@
-const gcd = (a, b) => {
-  if (!b) {
-    return a;
-  }
-
-  return gcd(b, a % b);
-}
-
 class Point {
   constructor(x, y) {
     this.x = x;
@@ -30,11 +22,6 @@ class Vec2 {
   dot(other) {
     return this.x * other.x + this.y * other.y;
   }
-
-  cos(other) {
-    return this.dot(other) / this.length() / other.length();
-  }
-
 
   length() {
     return Math.sqrt(this.x ** 2 + this.y ** 2);
