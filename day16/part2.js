@@ -1,41 +1,93 @@
-const pattern = [0, 1, 0, -1];
-const cache = new Map();
-const val = (row, col, power, size) => {
-  let c = row + '#' + col;
-  if (cache.has(c)) {
-    //  return cache.get(c);
+class Node {
+  constructor(value, next) {
+    this.value = value;
+    this.next = next;
   }
-
-  if (power == 1) {
-    return (pattern[(((row + 1) / (col + 1)) | 0) % pattern.length]);
-  }
-
-  let result = 0;
-
-  for (let i = 0; i < size; i++) {
-    result += (val(row, i, power - 1, size) * val(i, col, 1, size)) % 10;
-  }
-
-  //cache.set(c, result);
-  return result;
 }
-const phase = (input, offset, length) => {
-  let output = '';
-  let values = input.split('').map(e => +e);
 
-  let len = input.length;// * 10000;
-  for (let i = offset; i < offset + length; i++) {
-    let res = 0;
-    for (let j = 0; j < len; j++) {
-      let pat = val(j, i, 2, len);
-      res += values[j % input.length] * pat;
+const skip = (chain, n) => {
+  while (n-- && chain) {
+    chain = chain.next;
+  }
+  return chain;
+}
+
+const add = (chain, pos) => {
+  let skipping = true;
+  let mul = 1;
+  let res = 0;
+  let i = 0;
+
+  while (chain) {
+    if (skipping) {
+      chain = skip(chain, pos + 1);
+      skipping = false;
+    } else {
+      res += mul * chain.value;
+      i++;
+      chain = chain.next;
+
+      if (i == pos + 1) {
+        mul *= -1;
+        skipping = true;
+        i = 0;
+      }
     }
-    output += Math.abs(res % 10);
+
   }
 
-  return output;
+  return Math.abs(res % 10);
+}
+
+const phase = chain => {
+  let curr = chain;
+
+  let pos = 0;
+  let newChain = null;
+  let start = null;
+  while (curr) {
+    curr = curr.next;
+
+    if (!newChain) {
+      newChain = new Node(add(chain, pos));
+      start = newChain;
+    } else if (curr) {
+      start.next = new Node(add(chain, pos));
+      start = start.next;
+    }
+    pos++;
+  }
+  return newChain;
+}
+
+const toString = chain => {
+  let res = '';
+  while (chain) {
+    res += chain.value;
+    chain = chain.next;
+  }
+  return res;
 }
 
 module.exports = input => {
-  return phase('12345678', 0, 8);//phase('03036732577212944063491565474664', 303673, 8);
+  x = '12345678';
+  input = x;
+
+  for (let i = 0; i < 20; i++) {
+    let chain = new Node(0);
+    let start = chain;
+    x.split('').forEach(v => {
+      start.next = new Node(+v);
+      start = start.next;
+    });
+    x += input;
+
+
+    for (let i = 0; i < 100; i++) {
+      chain = new Node(0, phase(chain));
+    }
+    console.log(toString(chain.next));
+  }
+
+  //return str //.substr(0, 8); //phase('12345678', 0, 8); //phase('03036732577212944063491565474664', 303673, 8);
 }
