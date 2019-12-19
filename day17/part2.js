@@ -65,7 +65,7 @@ module.exports = input => {
   let main = ['A', 'B', 'A', 'C', 'B', 'C', 'A', 'C', 'B', 'C'];
   let a = ['L', '8', 'R', '10', 'L', '10'];
   let b = ['R', '10', 'L', '8', 'L', '8', 'L', '10'];
-  let c = ['L', '4', 'L', '6', 'L', '8', 'L', '8',];
+  let c = ['L', '4', 'L', '6', 'L', '8', 'L', '8', ];
 
   const convert = main => {
     let m = main.reduce((res, curr) => {
