@@ -21,14 +21,21 @@ module.exports = input => {
     });
   });
 
-  let q = [[pos, [], 0]];
+  let q = [[pos, 0, 0]];
   let visited = new Set();
-  const id = ([x, y], col) => `${x}#${y}#${col.join('')}`;
+  const id = ([x, y], col) => `${x}#${y}#${col}`;
+  const contains = (col, key) => {
+    return (col >> (key.charCodeAt(0) - 97)) & 1
+  }
+  const add = (col, key) => {
+    return col | (1 << (key.charCodeAt(0) - 97));
+  }
+  let target = [...keys.keys()].reduce((sum, k) => add(sum, k), 0);
 
   while (q.length) {
     let [p, collected, dist] = q.shift();
 
-    if (collected.length == keys.size) {
+    if (collected == target) {
       return dist - 1;
     }
 
@@ -42,16 +49,16 @@ module.exports = input => {
     }
 
     if (type.match('[A-Z]')) {
-      if (!collected.includes(type.toLowerCase())) {
+      if (!contains(collected, type.toLowerCase())) {
         continue;
       }
     }
 
-    if (type.match('[a-z]') && !collected.includes(type)) {
-      collected = collected.concat(type);
+    if (type.match('[a-z]') && !contains(collected, type)) {
+      collected = add(collected, type);
     }
 
-    visited.add(id(p, collected.sort()));
+    visited.add(id(p, collected));
 
     q.push([[p[0] + 1, p[1]], collected, dist + 1]);
     q.push([[p[0] - 1, p[1]], collected, dist + 1]);
