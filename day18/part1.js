@@ -23,7 +23,7 @@ module.exports = input => {
 
   let q = [[pos, 0, 0]];
   let visited = new Set();
-  const id = ([x, y], col) => `${x}#${y}#${col}`;
+  const id = ([x, y], col) => (100 * x + y) * (1 << 26) + col;
   const contains = (col, key) => {
     return (col >> (key.charCodeAt(0) - 97)) & 1
   }
