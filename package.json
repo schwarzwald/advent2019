@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
-    "mocha": "^6.2.2"
+    "mocha": "^6.2.3"
   },
   "keywords": [
     "advent-of-code",
